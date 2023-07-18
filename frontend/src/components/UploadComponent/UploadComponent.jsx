@@ -5,15 +5,24 @@ const UploadComponent = () => {
   return (
     <>
       <div className={style.container}>
-        <h1>Upload your image</h1>
-        <p>File should be Jpeg, Png,...</p>
+        <h1 className={style.title}>Upload your image</h1>
+        <p className={style.info}>File should be Jpeg, Png,...</p>
         <form>
           <div className={style.dragArea}>
             <img src={dragImage} alt='drag-area-image' />
+            Drag & Drop your image here
           </div>
-          <p>Or</p>
-          <input type='file' name='' id='' />
-          <button type='submit'>submit</button>
+          <p className={style.selectionText}>Or</p>
+          <input
+            type='file'
+            name=''
+            id=''
+            className={style.customInput}
+            title=' '
+          />
+          <button type='submit' className={style.submit}>
+            submit
+          </button>
         </form>
       </div>
     </>
