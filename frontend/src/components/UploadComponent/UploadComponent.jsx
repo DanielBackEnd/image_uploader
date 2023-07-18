@@ -15,7 +15,7 @@ const UploadComponent = () => {
           <p className={style.selectionText}>Or</p>
           <input
             type='file'
-            name=''
+            name='image'
             id=''
             className={style.customInput}
             title=' '
