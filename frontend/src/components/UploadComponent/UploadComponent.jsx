@@ -1,7 +1,7 @@
 import style from './UploadComponent.module.css';
 import dragImage from '../../assets/image.svg';
 
-const UploadComponent = () => {
+const UploadComponent = props => {
   return (
     <>
       <div className={style.container}>
