@@ -52,6 +52,9 @@ const UploadComponent = () => {
             id=''
             className={style.customInput}
             title=' '
+            onChange={e => {
+              dispatch(setFile(e.target.files[0]));
+            }}
           />
         </form>
       </div>
