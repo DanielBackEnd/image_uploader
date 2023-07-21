@@ -5,7 +5,6 @@ const UploadComponent = ({ file, setFile, isLoading, setIsLoading }) => {
   const dropInArea = e => {
     e.preventDefault();
     console.log(e.dataTransfer.files[0]);
-    setFile(e.dataTransfer.files[0]);
   };
 
   const dragOverArea = e => {
