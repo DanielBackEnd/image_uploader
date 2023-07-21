@@ -5,4 +5,8 @@ export const store = configureStore({
   reducer: {
     file: fileReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
