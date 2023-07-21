@@ -2,6 +2,7 @@ import style from './UploadComponent.module.css';
 import dragImage from '../../assets/image.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFile } from '../../slices/fileSlice';
+import { useEffect } from 'react';
 
 const UploadComponent = () => {
   const file = useSelector(state => state.file.value);
@@ -9,10 +10,7 @@ const UploadComponent = () => {
 
   const dropInArea = e => {
     e.preventDefault();
-    // console.log(e.dataTransfer.files[0]);
-    console.log(file);
     dispatch(setFile(e.dataTransfer.files[0]));
-    console.log(file);
   };
 
   const dragOverArea = e => {
@@ -24,6 +22,12 @@ const UploadComponent = () => {
     e.preventDefault;
     console.log('drag outside area');
   };
+
+  useEffect(() => {
+    if (file !== null) {
+      console.log(file);
+    }
+  }, [file]);
 
   return (
     <>
@@ -49,9 +53,6 @@ const UploadComponent = () => {
             className={style.customInput}
             title=' '
           />
-          <button type='submit' className={style.submit}>
-            submit
-          </button>
         </form>
       </div>
     </>
