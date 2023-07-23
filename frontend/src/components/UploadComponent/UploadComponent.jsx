@@ -3,12 +3,15 @@ import dragImage from '../../assets/image.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFile, setLoading, setUploaded } from '../../slices/fileSlice';
 import { useEffect } from 'react';
+import { useUploadMutation } from '../../slices/imagesApiSlice';
 
 const UploadComponent = () => {
   const file = useSelector(state => state.file.value);
   const loading = useSelector(state => state.file.loading);
   const uploaded = useSelector(state => state.file.uploaded);
   const dispatch = useDispatch();
+
+  const [upload] = useUploadMutation();
 
   const dropInArea = e => {
     e.preventDefault();
@@ -27,7 +30,21 @@ const UploadComponent = () => {
 
   useEffect(() => {
     if (file !== null) {
-      console.log(file);
+      dispatch(setLoading(true));
+      const fetchData = async () => {
+        try {
+          const formData = new FormData();
+          formData.append('image', file);
+          const res = await upload(formData).unwrap();
+          console.log(res);
+          dispatch(setLoading(false));
+          dispatch(setUploaded(true));
+        } catch (error) {
+          console.log(error);
+          dispatch(setLoading(false));
+        }
+      };
+      fetchData();
     }
   }, [file]);
 
