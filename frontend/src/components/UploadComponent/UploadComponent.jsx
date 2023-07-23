@@ -1,11 +1,21 @@
 import style from './UploadComponent.module.css';
 import dragImage from '../../assets/image.svg';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFile, setLoading, setUploaded } from '../../slices/fileSlice';
+import { useEffect } from 'react';
+import { useUploadMutation } from '../../slices/imagesApiSlice';
 
-const UploadComponent = ({ file, setFile, isLoading, setIsLoading }) => {
+const UploadComponent = () => {
+  const file = useSelector(state => state.file.value);
+  const loading = useSelector(state => state.file.loading);
+  const uploaded = useSelector(state => state.file.uploaded);
+  const dispatch = useDispatch();
+
+  const [upload] = useUploadMutation();
+
   const dropInArea = e => {
     e.preventDefault();
-    console.log(e.dataTransfer.files[0]);
-    setFile(e.dataTransfer.files[0]);
+    dispatch(setFile(e.dataTransfer.files[0]));
   };
 
   const dragOverArea = e => {
@@ -17,6 +27,26 @@ const UploadComponent = ({ file, setFile, isLoading, setIsLoading }) => {
     e.preventDefault;
     console.log('drag outside area');
   };
+
+  useEffect(() => {
+    if (file !== null) {
+      dispatch(setLoading(true));
+      const fetchData = async () => {
+        try {
+          const formData = new FormData();
+          formData.append('image', file);
+          const res = await upload(formData).unwrap();
+          console.log(res);
+          dispatch(setLoading(false));
+          dispatch(setUploaded(true));
+        } catch (error) {
+          console.log(error);
+          dispatch(setLoading(false));
+        }
+      };
+      fetchData();
+    }
+  }, [file]);
 
   return (
     <>
@@ -41,10 +71,10 @@ const UploadComponent = ({ file, setFile, isLoading, setIsLoading }) => {
             id=''
             className={style.customInput}
             title=' '
+            onChange={e => {
+              dispatch(setFile(e.target.files[0]));
+            }}
           />
-          <button type='submit' className={style.submit}>
-            submit
-          </button>
         </form>
       </div>
     </>
