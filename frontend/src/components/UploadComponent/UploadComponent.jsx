@@ -1,11 +1,13 @@
 import style from './UploadComponent.module.css';
 import dragImage from '../../assets/image.svg';
 import { useSelector, useDispatch } from 'react-redux';
-import { setFile } from '../../slices/fileSlice';
+import { setFile, setLoading, setUploaded } from '../../slices/fileSlice';
 import { useEffect } from 'react';
 
 const UploadComponent = () => {
   const file = useSelector(state => state.file.value);
+  const loading = useSelector(state => state.file.loading);
+  const uploaded = useSelector(state => state.file.uploaded);
   const dispatch = useDispatch();
 
   const dropInArea = e => {
